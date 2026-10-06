@@ -1,0 +1,96 @@
+// src/js/bracket.js - Renderizado del Cuadro Eliminatorio / Bracket
+
+export function renderBracket(bracketData, onMatchClick) {
+  const container = document.getElementById('bracket-container');
+
+  if (!bracketData || Object.keys(bracketData).length === 0) {
+    container.innerHTML = `
+      <div class="bracket-empty">
+        <div class="empty-icon">🏆</div>
+        <h3>El torneo aún no ha comenzado</h3>
+        <p>Presiona el botón <strong>"Generar Sorteo y Bracket"</strong> para armar las llaves aleatorias.</p>
+      </div>
+    `;
+    return;
+  }
+
+  const roundKeys = Object.keys(bracketData).sort((a, b) => {
+    const order = { 'Cuartos de Final': 1, 'Semifinal': 2, 'Gran Final': 3 };
+    return (order[a] || 99) - (order[b] || 99);
+  });
+
+  let html = '<div class="bracket-tree">';
+
+  roundKeys.forEach((roundTitle) => {
+    const matches = bracketData[roundTitle];
+    const isFinalRound = roundTitle === 'Gran Final';
+
+    html += `
+      <div class="bracket-round">
+        <div class="round-title">${roundTitle}</div>
+    `;
+
+    matches.forEach((m) => {
+      const isPlayed = m.estado === 'jugado';
+      const isWinner1 = isPlayed && m.ganador_id == m.equipo1_id && m.equipo1_id;
+      const isWinner2 = isPlayed && m.ganador_id == m.equipo2_id && m.equipo2_id;
+
+      const team1Name = m.equipo1_nombre || 'Por Definir';
+      const team2Name = m.equipo2_nombre || 'Por Definir';
+
+      const team1Color = m.equipo1_color || '#475569';
+      const team2Color = m.equipo2_color || '#475569';
+
+      const score1 = isPlayed ? m.goles_equipo1 : '-';
+      const score2 = isPlayed ? m.goles_equipo2 : '-';
+
+      const showPenalties = isPlayed && m.penales_equipo1 !== null && m.penales_equipo2 !== null;
+
+      html += `
+        <div class="bracket-match-card ${isFinalRound ? 'is-final' : ''}" data-match-id="${m.id}">
+          <div class="match-header-bar">
+            <span>Partido #${m.id}</span>
+            <span class="status-pill">${isPlayed ? '✅ Jugado' : '⏳ Pendiente'}</span>
+          </div>
+
+          <div class="match-team-row ${isWinner1 ? 'winner' : ''}">
+            <div class="team-badge-name">
+              <span class="team-dot" style="background-color: ${team1Color}; color: ${team1Color};"></span>
+              <span class="team-title-text ${!m.equipo1_id ? 'tbd' : ''}">${team1Name}</span>
+            </div>
+            <span class="score-badge ${isWinner1 ? 'winner-score' : ''}">${score1}</span>
+          </div>
+
+          <div class="match-team-row ${isWinner2 ? 'winner' : ''}">
+            <div class="team-badge-name">
+              <span class="team-dot" style="background-color: ${team2Color}; color: ${team2Color};"></span>
+              <span class="team-title-text ${!m.equipo2_id ? 'tbd' : ''}">${team2Name}</span>
+            </div>
+            <span class="score-badge ${isWinner2 ? 'winner-score' : ''}">${score2}</span>
+          </div>
+
+          ${showPenalties ? `
+            <div class="penalties-note">
+              🎯 Penales: ${m.penales_equipo1} - ${m.penales_equipo2}
+            </div>
+          ` : ''}
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+  });
+
+  html += '</div>';
+  container.innerHTML = html;
+
+  const cards = container.querySelectorAll('.bracket-match-card');
+  cards.forEach((card) => {
+    card.addEventListener('click', () => {
+      const matchId = card.getAttribute('data-match-id');
+      if (onMatchClick && matchId) {
+        onMatchClick(matchId);
+      }
+    });
+  });
+}
