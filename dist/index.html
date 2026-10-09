@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Torneo Relámpago ⚡ | Gestión de Torneos de Fútbol</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script type="module" crossorigin src="/assets/index-CL5o-1YX.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-B2RaaDlF.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Navbar Header -->
+    <header class="app-header">
+      <div class="header-container">
+        <div class="brand">
+          <div class="brand-icon">⚡</div>
+          <div class="brand-text">
+            <h1>TORNEO <span class="text-gradient">RELÁMPAGO</span></h1>
+            <p class="brand-sub">Sistema de Eliminación Directa Amateur</p>
+          </div>
+        </div>
+
+        <div class="header-status">
+          <span id="tournament-badge" class="badge badge-registro">
+            <span class="status-dot"></span> <span id="tournament-status-text">Cargando...</span>
+          </span>
+        </div>
+
+        <div class="header-actions">
+          <button id="btn-start-tournament" class="btn btn-emerald shadow-glow">
+            <span>⚡</span> Generar Sorteo y Bracket
+          </button>
+          <button id="btn-reset-tournament" class="btn btn-outline-danger">
+            <span>🔄</span> Reiniciar
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="app-nav">
+      <div class="nav-container">
+        <button class="nav-tab active" data-tab="dashboard">
+          <span class="tab-icon">📊</span> Panel Admin
+        </button>
+        <button class="nav-tab" data-tab="bracket">
+          <span class="tab-icon">🏆</span> Cuadro Eliminatorio
+        </button>
+        <button class="nav-tab" data-tab="matches">
+          <span class="tab-icon">📅</span> Partidos
+        </button>
+        <button class="nav-tab" data-tab="leaderboard">
+          <span class="tab-icon">⚽</span> Máximos Goleadores
+        </button>
+        <button class="nav-tab" data-tab="teams">
+          <span class="tab-icon">🛡️</span> Equipos y Plantillas
+        </button>
+      </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="app-main">
+
+      <!-- Champion Celebration Banner (Hidden by default) -->
+      <div id="champion-banner" class="champion-banner hidden">
+        <div class="champion-content">
+          <div class="trophy-glow">🏆</div>
+          <div class="champion-info">
+            <span class="champion-subtitle">¡CAMPEÓN DEL TORNEO RELÁMPAGO!</span>
+            <h2 id="champion-name" class="champion-title">LOS GALÁCTICOS FC</h2>
+            <p id="champion-sub" class="champion-desc">¡Felicitaciones al rey del torneo!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 1: DASHBOARD -->
+      <section id="view-dashboard" class="tab-view active">
+        <div class="dashboard-hero">
+          <div class="hero-card">
+            <div class="card-icon bg-emerald">🛡️</div>
+            <div class="card-info">
+              <span class="card-title">Equipos Registrados</span>
+              <h3 id="stat-equipos" class="card-value">0</h3>
+            </div>
+          </div>
+          <div class="hero-card">
+            <div class="card-icon bg-cyan">⚽</div>
+            <div class="card-info">
+              <span class="card-title">Partidos Totales</span>
+              <h3 id="stat-partidos" class="card-value">0</h3>
+            </div>
+          </div>
+          <div class="hero-card">
+            <div class="card-icon bg-purple">🔥</div>
+            <div class="card-info">
+              <span class="card-title">Partidos Jugados</span>
+              <h3 id="stat-jugados" class="card-value">0</h3>
+            </div>
+          </div>
+          <div class="hero-card">
+            <div class="card-icon bg-amber">🥇</div>
+            <div class="card-info">
+              <span class="card-title">Líder Goleador</span>
+              <h3 id="stat-pichichi" class="card-value">-</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <!-- Control Panel -->
+          <div class="panel-card glass-panel">
+            <div class="panel-header">
+              <h2>⚡ Sorteo Aleatorio de Eliminatoria</h2>
+            </div>
+            <div class="panel-body">
+              <p>Haz clic en el botón de abajo para generar automáticamente los enfrentamientos aleatorios de eliminación directa con los equipos registrados.</p>
+              <div class="banner-alert">
+                <span class="alert-icon">ℹ️</span>
+                <span>El sorteo requiere 4 u 8 equipos listos en la base de datos. Se han incluido 8 equipos de prueba listos para usar.</span>
+              </div>
+              <div class="action-buttons-group">
+                <button id="btn-draw-dash" class="btn btn-emerald btn-lg w-full shadow-glow">
+                  ⚡ Realizar Sorteo Aleatorio
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Bracket Preview / Instructions -->
+          <div class="panel-card glass-panel">
+            <div class="panel-header">
+              <h2>📋 Instrucciones de la Aplicación</h2>
+            </div>
+            <div class="panel-body instructions-list">
+              <div class="instruction-item">
+                <span class="inst-num">1</span>
+                <div>
+                  <strong>Registrar Equipos y Jugadores:</strong> Agrega o edita los equipos participantes en la sección de Equipos.
+                </div>
+              </div>
+              <div class="instruction-item">
+                <span class="inst-num">2</span>
+                <div>
+                  <strong>Sorteo de Llaves:</strong> El sistema genera automáticamente el árbol de eliminatorias en la pestaña <strong>Cuadro Eliminatorio</strong>.
+                </div>
+              </div>
+              <div class="instruction-item">
+                <span class="inst-num">3</span>
+                <div>
+                  <strong>Cargar Marcadores y Goleadores:</strong> Haz clic en cualquier partido para registrar los goles, penales si hay empate, y seleccionar a los anotadores.
+                </div>
+              </div>
+              <div class="instruction-item">
+                <span class="inst-num">4</span>
+                <div>
+                  <strong>Avance Automático:</strong> El equipo ganador avanza a la siguiente ronda del bracket inmediatamente hasta proclamar al Campeón.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 2: BRACKET -->
+      <section id="view-bracket" class="tab-view">
+        <div class="view-header">
+          <div>
+            <h2>🏆 Cuadro de Eliminación Directa</h2>
+            <p class="section-desc">Haz clic en cualquier partido para registrar resultados o ver el avance en tiempo real.</p>
+          </div>
+        </div>
+
+        <div id="bracket-container" class="bracket-wrapper glass-panel">
+          <!-- Dynamic Bracket Content -->
+          <div class="bracket-empty">
+            <div class="empty-icon">⚽</div>
+            <h3>El torneo aún no ha comenzado</h3>
+            <p>Genera los enfrentamientos aleatorios desde el botón "Generar Sorteo y Bracket".</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 3: MATCHES -->
+      <section id="view-matches" class="tab-view">
+        <div class="view-header">
+          <div>
+            <h2>📅 Calendario de Partidos</h2>
+            <p class="section-desc">Lista completa de enfrentamientos por rondas del torneo.</p>
+          </div>
+          <div class="filter-group">
+            <button class="btn-filter active" data-filter="all">Todos</button>
+            <button class="btn-filter" data-filter="pendiente">Pendientes</button>
+            <button class="btn-filter" data-filter="jugado">Finalizados</button>
+          </div>
+        </div>
+
+        <div id="matches-list-container" class="matches-container">
+          <!-- Dynamic Matches Content -->
+        </div>
+      </section>
+
+      <!-- VIEW 4: LEADERBOARD -->
+      <section id="view-leaderboard" class="tab-view">
+        <div class="view-header">
+          <div>
+            <h2>⚽ Máximos Goleadores (Pichichi)</h2>
+            <p class="section-desc">Tabla general de anotadores del torneo relámpago.</p>
+          </div>
+        </div>
+
+        <div id="pichichi-container" class="pichichi-wrapper glass-panel">
+          <!-- Dynamic Leaderboard -->
+        </div>
+      </section>
+
+      <!-- VIEW 5: TEAMS -->
+      <section id="view-teams" class="tab-view">
+        <div class="view-header">
+          <div>
+            <h2>🛡️ Gestión de Equipos y Jugadores</h2>
+            <p class="section-desc">Administra los clubes y sus plantillas de jugadores.</p>
+          </div>
+          <button id="btn-open-add-team" class="btn btn-emerald">
+            <span>➕</span> Registrar Nuevo Equipo
+          </button>
+        </div>
+
+        <div id="teams-grid-container" class="teams-grid">
+          <!-- Dynamic Teams Cards -->
+        </div>
+      </section>
+
+    </main>
+
+    <!-- MODAL: REGISTRAR RESULTADO DE PARTIDO -->
+    <div id="modal-match" class="modal-backdrop hidden">
+      <div class="modal-card glass-panel">
+        <div class="modal-header">
+          <h3 id="modal-match-title">Registrar Marcador de Partido</h3>
+          <button class="modal-close" id="btn-close-match-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="form-match-result">
+            <input type="hidden" id="match-id" />
+
+            <!-- Score board controls -->
+            <div class="scoreboard-input">
+              <div class="team-score-box">
+                <div class="team-badge-circle" id="m-team1-badge">🛡️</div>
+                <h4 id="m-team1-name">Equipo 1</h4>
+                <input type="number" id="m-team1-goals" class="score-field" min="0" value="0" required />
+              </div>
+
+              <div class="versus-divider">
+                <span>VS</span>
+              </div>
+
+              <div class="team-score-box">
+                <div class="team-badge-circle" id="m-team2-badge">🛡️</div>
+                <h4 id="m-team2-name">Equipo 2</h4>
+                <input type="number" id="m-team2-goals" class="score-field" min="0" value="0" required />
+              </div>
+            </div>
+
+            <!-- Penalties Section (Shown automatically if score tie) -->
+            <div id="penalties-box" class="penalties-box hidden">
+              <div class="penalties-header">
+                <span>⚠️ Empate en tiempo regular. Definición por Tanda de Penales:</span>
+              </div>
+              <div class="penalties-inputs">
+                <div>
+                  <label id="lbl-penal1">Penales Eq. 1</label>
+                  <input type="number" id="m-team1-penalties" class="form-input" min="0" placeholder="0" />
+                </div>
+                <div>
+                  <label id="lbl-penal2">Penales Eq. 2</label>
+                  <input type="number" id="m-team2-penalties" class="form-input" min="0" placeholder="0" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Goal Scorers Registration Section -->
+            <div class="scorers-section">
+              <div class="scorers-header">
+                <h4>⚽ Registrador de Goles por Jugador</h4>
+                <button type="button" id="btn-add-scorer-row" class="btn btn-sm btn-outline-emerald">➕ Anotar Gol</button>
+              </div>
+
+              <div id="scorers-list" class="scorers-list">
+                <!-- Dynamic Scorers Rows -->
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline" id="btn-cancel-match-modal">Cancelar</button>
+              <button type="submit" class="btn btn-emerald shadow-glow">Guardar Resultado y Avanzar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: REGISTRAR NUEVO EQUIPO -->
+    <div id="modal-team" class="modal-backdrop hidden">
+      <div class="modal-card glass-panel">
+        <div class="modal-header">
+          <h3>Registrar Nuevo Equipo</h3>
+          <button class="modal-close" id="btn-close-team-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="form-add-team">
+            <div class="form-group">
+              <label>Nombre del Equipo *</label>
+              <input type="text" id="t-nombre" class="form-input" placeholder="Ej. Deportivo Centenario" required />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Color Distintivo *</label>
+                <input type="color" id="t-color" class="color-picker-input" value="#00ff87" />
+              </div>
+              <div class="form-group">
+                <label>Ícono de Escudo</label>
+                <select id="t-escudo" class="form-input">
+                  <option value="shield">🛡️ Escudo Clásico</option>
+                  <option value="zap">⚡ Rayo Neón</option>
+                  <option value="star">⭐ Estrella Galáctica</option>
+                  <option value="flame">🔥 Llama Fuego</option>
+                  <option value="target">🎯 Diana / Blanco</option>
+                  <option value="trophy">🏆 Copa Dorada</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="players-input-section">
+              <h4>Plantilla de Jugadores Iniciales</h4>
+              <div id="initial-players-container" class="initial-players-container">
+                <!-- Rows added dynamically -->
+              </div>
+              <button type="button" id="btn-add-player-row" class="btn btn-sm btn-outline">+ Agregar otro jugador</button>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline" id="btn-cancel-team-modal">Cancelar</button>
+              <button type="submit" class="btn btn-emerald">Guardar Equipo</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: AGREGAR JUGADOR A EQUIPO EXISTENTE -->
+    <div id="modal-player" class="modal-backdrop hidden">
+      <div class="modal-card glass-panel">
+        <div class="modal-header">
+          <h3 id="modal-player-team-title">Agregar Jugador</h3>
+          <button class="modal-close" id="btn-close-player-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="form-add-single-player">
+            <input type="hidden" id="p-team-id" />
+            <div class="form-group">
+              <label>Nombre Completo del Jugador *</label>
+              <input type="text" id="p-nombre" class="form-input" placeholder="Ej. Lionel Messi" required />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Número de Dorsal *</label>
+                <input type="number" id="p-numero" class="form-input" min="1" max="99" value="10" required />
+              </div>
+              <div class="form-group">
+                <label>Posición</label>
+                <select id="p-posicion" class="form-input">
+                  <option value="Delantero">Delantero</option>
+                  <option value="Medio">Centrocampista / Medio</option>
+                  <option value="Defensa">Defensa</option>
+                  <option value="Portero">Portero</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline" id="btn-cancel-player-modal">Cancelar</button>
+              <button type="submit" class="btn btn-emerald">Guardar Jugador</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+  </div>
+
+</body>
+</html>

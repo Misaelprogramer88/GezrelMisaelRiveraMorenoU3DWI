@@ -12,9 +12,9 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS
 }
 
 $host = 'localhost';
-$db   = 'torneo_relampago';
-$user = 'root';
-$pass = ''; // XAMPP por defecto
+$db   = 'u308184786_torneo';
+$user = 'u308184786_torneo';
+$pass = 'Misaelriv1'; // XAMPP por defecto
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
