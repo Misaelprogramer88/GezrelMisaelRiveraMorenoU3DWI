@@ -3,63 +3,80 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Torneo Relámpago ⚡ | Gestión de Torneos de Fútbol</title>
+  <title>Torneo Relámpago ⚡ | Copa de Fútbol Amateur</title>
   
-  <!-- Google Fonts -->
+  <!-- Google Fonts para temática deportiva auténtica -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700;1,800&family=Chakra+Petch:ital,wght@0,600;0,700;1,700&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Rajdhani:wght@500;600;700;800&display=swap" rel="stylesheet">
 
-  <script type="module" crossorigin src="/assets/index-CL5o-1YX.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-B2RaaDlF.css">
+  <script type="module" crossorigin src="/assets/index-DA92k-4P.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-B8ROpugB.css">
 </head>
-<body>
+<body class="football-theme">
+  <!-- Subtle pitch tactical lines background overlay -->
+  <div class="pitch-tactical-overlay" aria-hidden="true"></div>
+
   <div id="app">
-    <!-- Navbar Header -->
+    <!-- Navbar Header / Barra Superior Oficial del Torneo -->
     <header class="app-header">
       <div class="header-container">
         <div class="brand">
-          <div class="brand-icon">⚡</div>
+          <div class="brand-crest">
+            <span class="crest-ball">⚽</span>
+            <span class="crest-lightning">⚡</span>
+          </div>
           <div class="brand-text">
+            <div class="brand-eyebrow">
+              <span class="stars-badge">★★★★★</span>
+              <span>COPA OFICIAL AMATEUR</span>
+            </div>
             <h1>TORNEO <span class="text-gradient">RELÁMPAGO</span></h1>
-            <p class="brand-sub">Sistema de Eliminación Directa Amateur</p>
+            <p class="brand-sub">Eliminación Directa • 90 Minutos + Penales</p>
           </div>
         </div>
 
         <div class="header-status">
           <span id="tournament-badge" class="badge badge-registro">
-            <span class="status-dot"></span> <span id="tournament-status-text">Cargando...</span>
+            <span class="status-dot"></span> <span id="tournament-status-text">Cargando estado...</span>
           </span>
         </div>
 
         <div class="header-actions">
-          <button id="btn-start-tournament" class="btn btn-emerald shadow-glow">
-            <span>⚡</span> Generar Sorteo y Bracket
+          <button id="btn-start-tournament" class="btn btn-emerald btn-sporty shadow-glow">
+            <span class="btn-icon">⚡</span>
+            <span>GENERAR SORTEO Y FIXTURE</span>
           </button>
-          <button id="btn-reset-tournament" class="btn btn-outline-danger">
-            <span>🔄</span> Reiniciar
+          <button id="btn-reset-tournament" class="btn btn-outline-danger btn-sporty">
+            <span class="btn-icon">🔄</span>
+            <span>REINICIAR TORNEO</span>
           </button>
         </div>
       </div>
     </header>
 
-    <!-- Navigation Tabs -->
+    <!-- Navigation Tabs / Menú de Competición -->
     <nav class="app-nav">
       <div class="nav-container">
         <button class="nav-tab active" data-tab="dashboard">
-          <span class="tab-icon">📊</span> Panel Admin
+          <span class="tab-icon">📊</span>
+          <span class="tab-text">Tablero Principal</span>
         </button>
         <button class="nav-tab" data-tab="bracket">
-          <span class="tab-icon">🏆</span> Cuadro Eliminatorio
+          <span class="tab-icon">🏆</span>
+          <span class="tab-text">Cuadro Eliminatorio</span>
         </button>
         <button class="nav-tab" data-tab="matches">
-          <span class="tab-icon">📅</span> Partidos
+          <span class="tab-icon">📅</span>
+          <span class="tab-text">Calendario y Partidos</span>
         </button>
         <button class="nav-tab" data-tab="leaderboard">
-          <span class="tab-icon">⚽</span> Máximos Goleadores
+          <span class="tab-icon">👟</span>
+          <span class="tab-text">Goleadores (Bota de Oro)</span>
         </button>
         <button class="nav-tab" data-tab="teams">
-          <span class="tab-icon">🛡️</span> Equipos y Plantillas
+          <span class="tab-icon">🛡️</span>
+          <span class="tab-text">Clubes y Plantillas</span>
         </button>
       </div>
     </nav>
@@ -70,96 +87,180 @@
       <!-- Champion Celebration Banner (Hidden by default) -->
       <div id="champion-banner" class="champion-banner hidden">
         <div class="champion-content">
-          <div class="trophy-glow">🏆</div>
+          <div class="champion-trophy-wrapper">
+            <img src="/assets/championship_trophy-Ij2IfXvb.jpg" alt="Trofeo de Campeón" class="champion-trophy-img" onerror="this.style.display='none'; document.getElementById('fallback-trophy-icon').style.display='block';" />
+            <div id="fallback-trophy-icon" class="trophy-glow" style="display:none;">🏆</div>
+            <div class="trophy-halo"></div>
+          </div>
           <div class="champion-info">
-            <span class="champion-subtitle">¡CAMPEÓN DEL TORNEO RELÁMPAGO!</span>
+            <div class="champion-tag">
+              <span>👑 CAMPEÓN INVICTO DEL TORNEO RELÁMPAGO</span>
+            </div>
             <h2 id="champion-name" class="champion-title">LOS GALÁCTICOS FC</h2>
-            <p id="champion-sub" class="champion-desc">¡Felicitaciones al rey del torneo!</p>
+            <p id="champion-sub" class="champion-desc">¡Máxima gloria deportiva alcanzada en el terreno de juego!</p>
+            <div class="champion-medals">
+              <span>⭐ COPA DE ORO</span>
+              <span>⭐ CAMPEÓN 2026</span>
+              <span>⭐ GLORIA ETERNA</span>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- VIEW 1: DASHBOARD -->
       <section id="view-dashboard" class="tab-view active">
-        <div class="dashboard-hero">
-          <div class="hero-card">
-            <div class="card-icon bg-emerald">🛡️</div>
-            <div class="card-info">
-              <span class="card-title">Equipos Registrados</span>
-              <h3 id="stat-equipos" class="card-value">0</h3>
-            </div>
+        <!-- Stadium Matchday Hero Showcase -->
+        <div class="matchday-stadium-hero">
+          <div class="hero-bg-media">
+            <img src="/assets/stadium_hero_bg-nqUIDL57.jpg" alt="Estadio de fútbol nocturno" class="hero-stadium-img" />
+            <div class="hero-gradient-overlay"></div>
+            <div class="stadium-floodlight floodlight-left"></div>
+            <div class="stadium-floodlight floodlight-right"></div>
           </div>
-          <div class="hero-card">
-            <div class="card-icon bg-cyan">⚽</div>
-            <div class="card-info">
-              <span class="card-title">Partidos Totales</span>
-              <h3 id="stat-partidos" class="card-value">0</h3>
+          <div class="hero-content">
+            <div class="hero-badges-row">
+              <span class="matchday-pill">⚡ MATCHDAY ARENA</span>
+              <span class="matchday-pill live-pill"><span class="blink-dot"></span> TEMPORADA 2026</span>
+              <span class="matchday-pill format-pill">🏟️ SISTEMA KO A PARTIDO ÚNICO</span>
             </div>
-          </div>
-          <div class="hero-card">
-            <div class="card-icon bg-purple">🔥</div>
-            <div class="card-info">
-              <span class="card-title">Partidos Jugados</span>
-              <h3 id="stat-jugados" class="card-value">0</h3>
-            </div>
-          </div>
-          <div class="hero-card">
-            <div class="card-icon bg-amber">🥇</div>
-            <div class="card-info">
-              <span class="card-title">Líder Goleador</span>
-              <h3 id="stat-pichichi" class="card-value">-</h3>
+            <h2 class="hero-main-title">
+              COPA DE FÚTBOL <span class="highlight-text">RELÁMPAGO</span>
+            </h2>
+            <p class="hero-description">
+              Plataforma oficial de gestión para el torneo de eliminación directa. Registra clubes, sortea los emparejamientos, lleva el control del marcador en tiempo real con definición por penales y premia al Pichichi del torneo.
+            </p>
+            <div class="hero-quick-actions">
+              <button class="btn btn-emerald btn-lg btn-sporty shadow-glow" onclick="document.getElementById('btn-draw-dash').click();">
+                <span>⚡ REALIZAR SORTEO DE LLAVES</span>
+              </button>
+              <button class="btn btn-outline btn-lg btn-sporty" onclick="document.querySelector('.nav-tab[data-tab=\'bracket\']').click();">
+                <span>🏆 VER CUADRO ELIMINATORIO</span>
+              </button>
             </div>
           </div>
         </div>
 
+        <!-- 4 Metric Cards con estética deportiva tipo EA Sports / Broadcast -->
+        <div class="dashboard-hero">
+          <div class="hero-card metric-card-teams">
+            <div class="card-icon bg-emerald">
+              <span>🛡️</span>
+            </div>
+            <div class="card-info">
+              <span class="card-title">Clubes Registrados</span>
+              <h3 id="stat-equipos" class="card-value">0</h3>
+              <span class="card-badge-sub">En competencia</span>
+            </div>
+            <div class="card-corner-accent"></div>
+          </div>
+
+          <div class="hero-card metric-card-matches">
+            <div class="card-icon bg-cyan">
+              <span>⚽</span>
+            </div>
+            <div class="card-info">
+              <span class="card-title">Partidos Totales</span>
+              <h3 id="stat-partidos" class="card-value">0</h3>
+              <span class="card-badge-sub">Cuadro oficial</span>
+            </div>
+            <div class="card-corner-accent"></div>
+          </div>
+
+          <div class="hero-card metric-card-played">
+            <div class="card-icon bg-purple">
+              <span>⏱️</span>
+            </div>
+            <div class="card-info">
+              <span class="card-title">Partidos Jugados</span>
+              <h3 id="stat-jugados" class="card-value">0</h3>
+              <span class="card-badge-sub">Resultados oficiales</span>
+            </div>
+            <div class="card-corner-accent"></div>
+          </div>
+
+          <div class="hero-card metric-card-scorer">
+            <div class="card-icon bg-amber">
+              <span>👟</span>
+            </div>
+            <div class="card-info">
+              <span class="card-title">Bota de Oro (Pichichi)</span>
+              <h3 id="stat-pichichi" class="card-value card-value-sm">-</h3>
+              <span class="card-badge-sub">Líder goleador</span>
+            </div>
+            <div class="card-corner-accent"></div>
+          </div>
+        </div>
+
+        <!-- Paneles de Sorteo y Reglamento -->
         <div class="dashboard-grid">
-          <!-- Control Panel -->
-          <div class="panel-card glass-panel">
-            <div class="panel-header">
-              <h2>⚡ Sorteo Aleatorio de Eliminatoria</h2>
+          <!-- Control Panel de Sorteo -->
+          <div class="panel-card glass-panel sporty-panel">
+            <div class="panel-header sporty-panel-header">
+              <div class="panel-title-group">
+                <span class="panel-badge-icon">⚡</span>
+                <div>
+                  <h2>SORTEO OFICIAL DE LLAVES</h2>
+                  <p class="panel-subtitle">Generación aleatoria de enfrentamientos directos</p>
+                </div>
+              </div>
             </div>
             <div class="panel-body">
-              <p>Haz clic en el botón de abajo para generar automáticamente los enfrentamientos aleatorios de eliminación directa con los equipos registrados.</p>
-              <div class="banner-alert">
-                <span class="alert-icon">ℹ️</span>
-                <span>El sorteo requiere 4 u 8 equipos listos en la base de datos. Se han incluido 8 equipos de prueba listos para usar.</span>
+              <p>El sistema asignará aleatoriamente a los clubes participantes en los Cuartos de Final (o Semifinales), trazando el camino rumbo a la Gran Final.</p>
+              
+              <div class="banner-alert sport-alert">
+                <span class="alert-icon">⚽</span>
+                <div>
+                  <strong>Requisito reglamentario:</strong>
+                  <span>Se requieren 4 u 8 equipos registrados en la base de datos para generar un cuadro equilibrado. El sistema incluye 8 clubes pre-cargados listos para disputar la copa.</span>
+                </div>
               </div>
+
               <div class="action-buttons-group">
-                <button id="btn-draw-dash" class="btn btn-emerald btn-lg w-full shadow-glow">
-                  ⚡ Realizar Sorteo Aleatorio
+                <button id="btn-draw-dash" class="btn btn-emerald btn-lg w-full btn-sporty shadow-glow">
+                  <span>⚡ REALIZAR SORTEO Y GENERAR BRACKET</span>
                 </button>
               </div>
             </div>
           </div>
 
-          <!-- Quick Bracket Preview / Instructions -->
-          <div class="panel-card glass-panel">
-            <div class="panel-header">
-              <h2>📋 Instrucciones de la Aplicación</h2>
+          <!-- Reglamento y Dinámica del Torneo -->
+          <div class="panel-card glass-panel sporty-panel">
+            <div class="panel-header sporty-panel-header">
+              <div class="panel-title-group">
+                <span class="panel-badge-icon">📋</span>
+                <div>
+                  <h2>REGLAMENTO DEL TORNEO</h2>
+                  <p class="panel-subtitle">Protocolo de competición amateur</p>
+                </div>
+              </div>
             </div>
             <div class="panel-body instructions-list">
               <div class="instruction-item">
                 <span class="inst-num">1</span>
                 <div>
-                  <strong>Registrar Equipos y Jugadores:</strong> Agrega o edita los equipos participantes en la sección de Equipos.
+                  <strong>Inscripción de Clubes y Plantillas:</strong>
+                  <p>Configura o agrega nuevos clubes con sus colores distintivos y dorsales en la sección de Equipos.</p>
                 </div>
               </div>
               <div class="instruction-item">
                 <span class="inst-num">2</span>
                 <div>
-                  <strong>Sorteo de Llaves:</strong> El sistema genera automáticamente el árbol de eliminatorias en la pestaña <strong>Cuadro Eliminatorio</strong>.
+                  <strong>Sorteo de Cuadro Eliminatorio:</strong>
+                  <p>Inicia el sorteo para estructurar el fixture en el <strong>Cuadro Eliminatorio</strong>.</p>
                 </div>
               </div>
               <div class="instruction-item">
                 <span class="inst-num">3</span>
                 <div>
-                  <strong>Cargar Marcadores y Goleadores:</strong> Haz clic en cualquier partido para registrar los goles, penales si hay empate, y seleccionar a los anotadores.
+                  <strong>Registro de Marcadores y Goleadores:</strong>
+                  <p>Haz clic en cualquier partido para asentar goles, minutos y tanda de penales si el encuentro termina en empate.</p>
                 </div>
               </div>
               <div class="instruction-item">
                 <span class="inst-num">4</span>
                 <div>
-                  <strong>Avance Automático:</strong> El equipo ganador avanza a la siguiente ronda del bracket inmediatamente hasta proclamar al Campeón.
+                  <strong>Clasificación y Coronación:</strong>
+                  <p>El ganador avanza automáticamente de fase hasta consagrarse Campeón con lluvia de fuegos artificiales.</p>
                 </div>
               </div>
             </div>
@@ -171,8 +272,14 @@
       <section id="view-bracket" class="tab-view">
         <div class="view-header">
           <div>
+            <div class="section-tag">🏟️ FASE KO • CAMINO A LA GLORIA</div>
             <h2>🏆 Cuadro de Eliminación Directa</h2>
-            <p class="section-desc">Haz clic en cualquier partido para registrar resultados o ver el avance en tiempo real.</p>
+            <p class="section-desc">Selecciona cualquier partido para registrar goles, penales o consultar estadísticas en vivo.</p>
+          </div>
+          <div class="bracket-legend">
+            <span class="legend-item"><span class="legend-dot dot-played"></span> Finalizado</span>
+            <span class="legend-item"><span class="legend-dot dot-pending"></span> Por Jugar</span>
+            <span class="legend-item"><span class="legend-dot dot-final"></span> Gran Final</span>
           </div>
         </div>
 
@@ -190,13 +297,14 @@
       <section id="view-matches" class="tab-view">
         <div class="view-header">
           <div>
-            <h2>📅 Calendario de Partidos</h2>
-            <p class="section-desc">Lista completa de enfrentamientos por rondas del torneo.</p>
+            <div class="section-tag">📅 FIXTURE OFICIAL</div>
+            <h2>Calendario de Enfrentamientos</h2>
+            <p class="section-desc">Revisa y edita los resultados de cada ronda del campeonato.</p>
           </div>
           <div class="filter-group">
-            <button class="btn-filter active" data-filter="all">Todos</button>
-            <button class="btn-filter" data-filter="pendiente">Pendientes</button>
-            <button class="btn-filter" data-filter="jugado">Finalizados</button>
+            <button class="btn-filter active" data-filter="all">⚽ Todos los Partidos</button>
+            <button class="btn-filter" data-filter="pendiente">⏳ Pendientes</button>
+            <button class="btn-filter" data-filter="jugado">✅ Finalizados</button>
           </div>
         </div>
 
@@ -209,8 +317,16 @@
       <section id="view-leaderboard" class="tab-view">
         <div class="view-header">
           <div>
-            <h2>⚽ Máximos Goleadores (Pichichi)</h2>
-            <p class="section-desc">Tabla general de anotadores del torneo relámpago.</p>
+            <div class="section-tag">👟 BOTA DE ORO 2026</div>
+            <h2>Máximos Goleadores (Pichichi)</h2>
+            <p class="section-desc">Tabla oficial de anotadores del torneo y podio de honor.</p>
+          </div>
+          <div class="pichichi-trophy-badge">
+            <img src="/assets/golden_boot-Be3Im024.jpg" alt="Bota de Oro" class="golden-boot-badge-img" onerror="this.style.display='none';" />
+            <div class="pichichi-badge-text">
+              <span class="badge-title">PREMIO PICHICHI</span>
+              <span class="badge-sub">Goleador del Torneo</span>
+            </div>
           </div>
         </div>
 
@@ -223,11 +339,12 @@
       <section id="view-teams" class="tab-view">
         <div class="view-header">
           <div>
-            <h2>🛡️ Gestión de Equipos y Jugadores</h2>
-            <p class="section-desc">Administra los clubes y sus plantillas de jugadores.</p>
+            <div class="section-tag">🛡️ CLUBES PARTICIPANTES</div>
+            <h2>Gestión de Equipos y Plantillas</h2>
+            <p class="section-desc">Administra los clubes, sus colores, dorsales y jugadores registrados.</p>
           </div>
-          <button id="btn-open-add-team" class="btn btn-emerald">
-            <span>➕</span> Registrar Nuevo Equipo
+          <button id="btn-open-add-team" class="btn btn-emerald btn-sporty shadow-glow">
+            <span>➕</span> INSCRIBIR NUEVO CLUB
           </button>
         </div>
 
@@ -240,47 +357,59 @@
 
     <!-- MODAL: REGISTRAR RESULTADO DE PARTIDO -->
     <div id="modal-match" class="modal-backdrop hidden">
-      <div class="modal-card glass-panel">
+      <div class="modal-card glass-panel sporty-modal">
         <div class="modal-header">
-          <h3 id="modal-match-title">Registrar Marcador de Partido</h3>
-          <button class="modal-close" id="btn-close-match-modal">&times;</button>
+          <div class="modal-title-group">
+            <span class="modal-icon-badge">⚽</span>
+            <div>
+              <h3 id="modal-match-title">Acta Oficial de Partido</h3>
+              <p class="modal-subtitle">Registro de goles, penales y anotadores</p>
+            </div>
+          </div>
+          <button class="modal-close" id="btn-close-match-modal" aria-label="Cerrar">&times;</button>
         </div>
         <div class="modal-body">
           <form id="form-match-result">
             <input type="hidden" id="match-id" />
 
-            <!-- Score board controls -->
-            <div class="scoreboard-input">
+            <!-- Tablero de Marcador Electrónico Digital -->
+            <div class="scoreboard-input scoreboard-stadium">
               <div class="team-score-box">
                 <div class="team-badge-circle" id="m-team1-badge">🛡️</div>
                 <h4 id="m-team1-name">Equipo 1</h4>
-                <input type="number" id="m-team1-goals" class="score-field" min="0" value="0" required />
+                <div class="score-input-wrap">
+                  <input type="number" id="m-team1-goals" class="score-field" min="0" value="0" required />
+                </div>
               </div>
 
               <div class="versus-divider">
-                <span>VS</span>
+                <span class="vs-badge">VS</span>
+                <span class="vs-sub">90'</span>
               </div>
 
               <div class="team-score-box">
                 <div class="team-badge-circle" id="m-team2-badge">🛡️</div>
                 <h4 id="m-team2-name">Equipo 2</h4>
-                <input type="number" id="m-team2-goals" class="score-field" min="0" value="0" required />
+                <div class="score-input-wrap">
+                  <input type="number" id="m-team2-goals" class="score-field" min="0" value="0" required />
+                </div>
               </div>
             </div>
 
             <!-- Penalties Section (Shown automatically if score tie) -->
             <div id="penalties-box" class="penalties-box hidden">
               <div class="penalties-header">
-                <span>⚠️ Empate en tiempo regular. Definición por Tanda de Penales:</span>
+                <span>⚠️ EMPATE EN TIEMPO REGLAMENTARIO • DEFINICIÓN POR TANDA DE PENALES</span>
               </div>
               <div class="penalties-inputs">
-                <div>
+                <div class="penal-group">
                   <label id="lbl-penal1">Penales Eq. 1</label>
-                  <input type="number" id="m-team1-penalties" class="form-input" min="0" placeholder="0" />
+                  <input type="number" id="m-team1-penalties" class="form-input text-center" min="0" placeholder="0" />
                 </div>
-                <div>
+                <div class="penal-vs">🥅</div>
+                <div class="penal-group">
                   <label id="lbl-penal2">Penales Eq. 2</label>
-                  <input type="number" id="m-team2-penalties" class="form-input" min="0" placeholder="0" />
+                  <input type="number" id="m-team2-penalties" class="form-input text-center" min="0" placeholder="0" />
                 </div>
               </div>
             </div>
@@ -288,8 +417,13 @@
             <!-- Goal Scorers Registration Section -->
             <div class="scorers-section">
               <div class="scorers-header">
-                <h4>⚽ Registrador de Goles por Jugador</h4>
-                <button type="button" id="btn-add-scorer-row" class="btn btn-sm btn-outline-emerald">➕ Anotar Gol</button>
+                <div class="scorers-title">
+                  <span>⚽</span>
+                  <h4>Anotadores de Goles en el Partido</h4>
+                </div>
+                <button type="button" id="btn-add-scorer-row" class="btn btn-sm btn-outline-emerald btn-sporty">
+                  ➕ Anotar Gol
+                </button>
               </div>
 
               <div id="scorers-list" class="scorers-list">
@@ -298,8 +432,8 @@
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-outline" id="btn-cancel-match-modal">Cancelar</button>
-              <button type="submit" class="btn btn-emerald shadow-glow">Guardar Resultado y Avanzar</button>
+              <button type="button" class="btn btn-outline btn-sporty" id="btn-cancel-match-modal">Cancelar</button>
+              <button type="submit" class="btn btn-emerald btn-sporty shadow-glow">Guardar Resultado y Avanzar</button>
             </div>
           </form>
         </div>
@@ -308,16 +442,22 @@
 
     <!-- MODAL: REGISTRAR NUEVO EQUIPO -->
     <div id="modal-team" class="modal-backdrop hidden">
-      <div class="modal-card glass-panel">
+      <div class="modal-card glass-panel sporty-modal">
         <div class="modal-header">
-          <h3>Registrar Nuevo Equipo</h3>
-          <button class="modal-close" id="btn-close-team-modal">&times;</button>
+          <div class="modal-title-group">
+            <span class="modal-icon-badge">🛡️</span>
+            <div>
+              <h3>Inscribir Nuevo Club</h3>
+              <p class="modal-subtitle">Configura el escudo, color y plantilla inicial</p>
+            </div>
+          </div>
+          <button class="modal-close" id="btn-close-team-modal" aria-label="Cerrar">&times;</button>
         </div>
         <div class="modal-body">
           <form id="form-add-team">
             <div class="form-group">
-              <label>Nombre del Equipo *</label>
-              <input type="text" id="t-nombre" class="form-input" placeholder="Ej. Deportivo Centenario" required />
+              <label>Nombre del Club *</label>
+              <input type="text" id="t-nombre" class="form-input" placeholder="Ej. Real Gladiadores FC" required />
             </div>
 
             <div class="form-row">
@@ -326,29 +466,32 @@
                 <input type="color" id="t-color" class="color-picker-input" value="#00ff87" />
               </div>
               <div class="form-group">
-                <label>Ícono de Escudo</label>
+                <label>Emblema de Escudo</label>
                 <select id="t-escudo" class="form-input">
-                  <option value="shield">🛡️ Escudo Clásico</option>
+                  <option value="shield">🛡️ Escudo de Armas</option>
                   <option value="zap">⚡ Rayo Neón</option>
-                  <option value="star">⭐ Estrella Galáctica</option>
-                  <option value="flame">🔥 Llama Fuego</option>
-                  <option value="target">🎯 Diana / Blanco</option>
+                  <option value="star">⭐ Estrella de Campeón</option>
+                  <option value="flame">🔥 Llama Olímpica</option>
+                  <option value="target">🎯 Diana Precisa</option>
                   <option value="trophy">🏆 Copa Dorada</option>
                 </select>
               </div>
             </div>
 
             <div class="players-input-section">
-              <h4>Plantilla de Jugadores Iniciales</h4>
+              <div class="section-sub-header">
+                <h4>Plantilla Inicial de Jugadores</h4>
+                <span class="text-muted" style="font-size:0.75rem;">(Mínimo 3 sugeridos)</span>
+              </div>
               <div id="initial-players-container" class="initial-players-container">
                 <!-- Rows added dynamically -->
               </div>
-              <button type="button" id="btn-add-player-row" class="btn btn-sm btn-outline">+ Agregar otro jugador</button>
+              <button type="button" id="btn-add-player-row" class="btn btn-sm btn-outline btn-sporty">+ Agregar otro jugador</button>
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-outline" id="btn-cancel-team-modal">Cancelar</button>
-              <button type="submit" class="btn btn-emerald">Guardar Equipo</button>
+              <button type="button" class="btn btn-outline btn-sporty" id="btn-cancel-team-modal">Cancelar</button>
+              <button type="submit" class="btn btn-emerald btn-sporty shadow-glow">Guardar Club</button>
             </div>
           </form>
         </div>
@@ -357,38 +500,44 @@
 
     <!-- MODAL: AGREGAR JUGADOR A EQUIPO EXISTENTE -->
     <div id="modal-player" class="modal-backdrop hidden">
-      <div class="modal-card glass-panel">
+      <div class="modal-card glass-panel sporty-modal">
         <div class="modal-header">
-          <h3 id="modal-player-team-title">Agregar Jugador</h3>
-          <button class="modal-close" id="btn-close-player-modal">&times;</button>
+          <div class="modal-title-group">
+            <span class="modal-icon-badge">👤</span>
+            <div>
+              <h3 id="modal-player-team-title">Inscribir Jugador</h3>
+              <p class="modal-subtitle">Asignar dorsal y posición en el campo</p>
+            </div>
+          </div>
+          <button class="modal-close" id="btn-close-player-modal" aria-label="Cerrar">&times;</button>
         </div>
         <div class="modal-body">
           <form id="form-add-single-player">
             <input type="hidden" id="p-team-id" />
             <div class="form-group">
               <label>Nombre Completo del Jugador *</label>
-              <input type="text" id="p-nombre" class="form-input" placeholder="Ej. Lionel Messi" required />
+              <input type="text" id="p-nombre" class="form-input" placeholder="Ej. Kylian Mbappé" required />
             </div>
 
             <div class="form-row">
               <div class="form-group">
-                <label>Número de Dorsal *</label>
+                <label>Número de Dorsal (1-99) *</label>
                 <input type="number" id="p-numero" class="form-input" min="1" max="99" value="10" required />
               </div>
               <div class="form-group">
-                <label>Posición</label>
+                <label>Demarcación / Posición</label>
                 <select id="p-posicion" class="form-input">
-                  <option value="Delantero">Delantero</option>
-                  <option value="Medio">Centrocampista / Medio</option>
-                  <option value="Defensa">Defensa</option>
-                  <option value="Portero">Portero</option>
+                  <option value="Delantero">⚡ Delantero (DEL)</option>
+                  <option value="Medio">⚙️ Centrocampista / Medio (MED)</option>
+                  <option value="Defensa">🛡️ Defensa (DEF)</option>
+                  <option value="Portero">🧤 Portero / Guardameta (POR)</option>
                 </select>
               </div>
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-outline" id="btn-cancel-player-modal">Cancelar</button>
-              <button type="submit" class="btn btn-emerald">Guardar Jugador</button>
+              <button type="button" class="btn btn-outline btn-sporty" id="btn-cancel-player-modal">Cancelar</button>
+              <button type="submit" class="btn btn-emerald btn-sporty shadow-glow">Guardar Jugador</button>
             </div>
           </form>
         </div>

@@ -55,32 +55,52 @@ export function renderMatchesList(bracketData, filter = 'all', onMatchClick) {
       const score1 = isPlayed ? m.goles_equipo1 : '-';
       const score2 = isPlayed ? m.goles_equipo2 : '-';
 
+      const showPenalties = isPlayed && m.penales_equipo1 !== null && m.penales_equipo2 !== null;
+
       html += `
-        <div class="bracket-match-card" data-match-id="${m.id}">
+        <div class="bracket-match-card match-fixture-card ${isPlayed ? 'card-played' : 'card-pending'}" data-match-id="${m.id}">
           <div class="match-header-bar">
-            <span>Partido #${m.id} • ${roundTitle}</span>
-            <span class="status-pill">${isPlayed ? '✅ Finalizado' : '⏳ Pendiente'}</span>
+            <span class="match-number-tag">PARTIDO #${m.id} • ${roundTitle}</span>
+            <span class="status-pill ${isPlayed ? 'status-played' : 'status-pending'}">
+              ${isPlayed ? '✅ FINALIZADO' : '⏳ POR JUGAR'}
+            </span>
           </div>
 
           <div class="match-team-row ${isWinner1 ? 'winner' : ''}">
             <div class="team-badge-name">
-              <span class="team-dot" style="background-color: ${team1Color}"></span>
+              <span class="team-crest-shield" style="border-color: ${team1Color}; box-shadow: 0 0 8px ${team1Color}66;">
+                <span class="team-dot" style="background-color: ${team1Color}"></span>
+              </span>
               <span class="team-title-text">${team1Name}</span>
             </div>
-            <span class="score-badge ${isWinner1 ? 'winner-score' : ''}">${score1}</span>
+            <div class="score-wrapper">
+              ${isWinner1 ? '<span class="winner-icon">⚽</span>' : ''}
+              <span class="score-badge ${isWinner1 ? 'winner-score' : ''}">${score1}</span>
+            </div>
           </div>
 
           <div class="match-team-row ${isWinner2 ? 'winner' : ''}">
             <div class="team-badge-name">
-              <span class="team-dot" style="background-color: ${team2Color}"></span>
+              <span class="team-crest-shield" style="border-color: ${team2Color}; box-shadow: 0 0 8px ${team2Color}66;">
+                <span class="team-dot" style="background-color: ${team2Color}"></span>
+              </span>
               <span class="team-title-text">${team2Name}</span>
             </div>
-            <span class="score-badge ${isWinner2 ? 'winner-score' : ''}">${score2}</span>
+            <div class="score-wrapper">
+              ${isWinner2 ? '<span class="winner-icon">⚽</span>' : ''}
+              <span class="score-badge ${isWinner2 ? 'winner-score' : ''}">${score2}</span>
+            </div>
           </div>
 
-          <div style="padding: 0.65rem 0.85rem; background: rgba(0,0,0,0.15); display: flex; justify-content: flex-end;">
-            <button class="btn btn-sm ${isPlayed ? 'btn-outline' : 'btn-emerald'}">
-              ${isPlayed ? '✏️ Ver / Editar Marcador' : '⚽ Registrar Marcador'}
+          ${showPenalties ? `
+            <div class="penalties-note">
+              🎯 Penales: <strong>${m.penales_equipo1} - ${m.penales_equipo2}</strong>
+            </div>
+          ` : ''}
+
+          <div class="fixture-card-footer">
+            <button class="btn btn-sm ${isPlayed ? 'btn-outline' : 'btn-emerald'} btn-sporty w-full">
+              ${isPlayed ? '✏️ Ver / Modificar Marcador Oficial' : '⚽ Registrar Marcador y Goleadores'}
             </button>
           </div>
         </div>

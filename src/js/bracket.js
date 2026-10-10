@@ -1,4 +1,4 @@
-// src/js/bracket.js - Renderizado del Cuadro Eliminatorio / Bracket
+// src/js/bracket.js - Renderizado del Cuadro Eliminatorio / Bracket Deportivo
 
 export function renderBracket(bracketData, onMatchClick) {
   const container = document.getElementById('bracket-container');
@@ -6,9 +6,12 @@ export function renderBracket(bracketData, onMatchClick) {
   if (!bracketData || Object.keys(bracketData).length === 0) {
     container.innerHTML = `
       <div class="bracket-empty">
-        <div class="empty-icon">🏆</div>
+        <div class="empty-icon-wrap">
+          <span class="empty-icon">⚽</span>
+          <span class="empty-glow"></span>
+        </div>
         <h3>El torneo aún no ha comenzado</h3>
-        <p>Presiona el botón <strong>"Generar Sorteo y Bracket"</strong> para armar las llaves aleatorias.</p>
+        <p>Presiona el botón <strong>"Generar Sorteo y Bracket"</strong> para armar los emparejamientos oficiales y dar inicio al campeonato.</p>
       </div>
     `;
     return;
@@ -26,8 +29,11 @@ export function renderBracket(bracketData, onMatchClick) {
     const isFinalRound = roundTitle === 'Gran Final';
 
     html += `
-      <div class="bracket-round">
-        <div class="round-title">${roundTitle}</div>
+      <div class="bracket-round ${isFinalRound ? 'round-grand-final' : ''}">
+        <div class="round-title-badge">
+          <span class="round-icon">${isFinalRound ? '🏆' : '⚽'}</span>
+          <span class="round-title">${roundTitle}</span>
+        </div>
     `;
 
     matches.forEach((m) => {
@@ -47,33 +53,50 @@ export function renderBracket(bracketData, onMatchClick) {
       const showPenalties = isPlayed && m.penales_equipo1 !== null && m.penales_equipo2 !== null;
 
       html += `
-        <div class="bracket-match-card ${isFinalRound ? 'is-final' : ''}" data-match-id="${m.id}">
+        <div class="bracket-match-card ${isFinalRound ? 'is-final' : ''} ${isPlayed ? 'card-played' : 'card-pending'}" data-match-id="${m.id}" title="Haz clic para registrar o ver el marcador">
+          ${isFinalRound ? '<div class="final-trophy-watermark">🏆</div>' : ''}
           <div class="match-header-bar">
-            <span>Partido #${m.id}</span>
-            <span class="status-pill">${isPlayed ? '✅ Jugado' : '⏳ Pendiente'}</span>
+            <span class="match-number-tag">PARTIDO #${m.id}</span>
+            <span class="status-pill ${isPlayed ? 'status-played' : 'status-pending'}">
+              ${isPlayed ? '✅ FINALIZADO' : '⏳ POR JUGAR'}
+            </span>
           </div>
 
           <div class="match-team-row ${isWinner1 ? 'winner' : ''}">
             <div class="team-badge-name">
-              <span class="team-dot" style="background-color: ${team1Color}; color: ${team1Color};"></span>
+              <span class="team-crest-shield" style="border-color: ${team1Color}; box-shadow: 0 0 8px ${team1Color}66;">
+                <span class="team-dot" style="background-color: ${team1Color};"></span>
+              </span>
               <span class="team-title-text ${!m.equipo1_id ? 'tbd' : ''}">${team1Name}</span>
             </div>
-            <span class="score-badge ${isWinner1 ? 'winner-score' : ''}">${score1}</span>
+            <div class="score-wrapper">
+              ${isWinner1 ? '<span class="winner-icon">⚽</span>' : ''}
+              <span class="score-badge ${isWinner1 ? 'winner-score' : ''}">${score1}</span>
+            </div>
           </div>
 
           <div class="match-team-row ${isWinner2 ? 'winner' : ''}">
             <div class="team-badge-name">
-              <span class="team-dot" style="background-color: ${team2Color}; color: ${team2Color};"></span>
+              <span class="team-crest-shield" style="border-color: ${team2Color}; box-shadow: 0 0 8px ${team2Color}66;">
+                <span class="team-dot" style="background-color: ${team2Color};"></span>
+              </span>
               <span class="team-title-text ${!m.equipo2_id ? 'tbd' : ''}">${team2Name}</span>
             </div>
-            <span class="score-badge ${isWinner2 ? 'winner-score' : ''}">${score2}</span>
+            <div class="score-wrapper">
+              ${isWinner2 ? '<span class="winner-icon">⚽</span>' : ''}
+              <span class="score-badge ${isWinner2 ? 'winner-score' : ''}">${score2}</span>
+            </div>
           </div>
 
           ${showPenalties ? `
             <div class="penalties-note">
-              🎯 Penales: ${m.penales_equipo1} - ${m.penales_equipo2}
+              🎯 Penales: <strong>${m.penales_equipo1} - ${m.penales_equipo2}</strong>
             </div>
           ` : ''}
+
+          <div class="bracket-card-hover-cue">
+            <span>${isPlayed ? '✏️ Ver / Editar Marcador' : '⚡ Cargar Marcador'}</span>
+          </div>
         </div>
       `;
     });

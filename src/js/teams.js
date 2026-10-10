@@ -26,37 +26,49 @@ export async function renderTeamsView(onTeamsUpdated) {
       const players = eq.jugadores || [];
 
       html += `
-        <div class="team-card" data-team-id="${eq.id}">
+        <div class="team-card sporty-club-card" data-team-id="${eq.id}">
+          <div class="team-card-top-stripe" style="background: linear-gradient(90deg, ${eq.color_hex}, ${eq.color_hex}44, transparent);"></div>
           <div class="team-card-header">
             <div class="team-card-title">
-              <div class="team-icon-circle" style="background-color: ${eq.color_hex}">🛡️</div>
+              <div class="team-icon-circle" style="background-color: ${eq.color_hex}; border-color: ${eq.color_hex}; box-shadow: 0 0 12px ${eq.color_hex}55;">
+                <span>🛡️</span>
+              </div>
               <div>
-                <h3>${eq.nombre}</h3>
-                <span style="font-size:0.75rem; color: var(--text-muted);">${players.length} jugadores inscritos</span>
+                <h3 class="club-title">${eq.nombre}</h3>
+                <span class="club-roster-count">🛡️ ${players.length} futbolistas inscritos</span>
               </div>
             </div>
-            <button class="btn btn-sm btn-outline-danger btn-delete-team" data-team-id="${eq.id}">🗑️</button>
+            <button class="btn btn-sm btn-outline-danger btn-delete-team" data-team-id="${eq.id}" title="Eliminar Club">🗑️</button>
           </div>
 
           <div class="player-list-scroll">
-            ${players.length === 0 ? '<p style="font-size:0.8rem; color:var(--text-muted); padding:0.5rem 0;">Sin jugadores registrados</p>' : ''}
-            ${players.map(p => `
-              <div class="player-item-row">
-                <div>
-                  <span class="player-dorsal">#${p.numero}</span>
-                  <strong>${p.nombre}</strong>
+            ${players.length === 0 ? '<p class="empty-roster-msg">Sin futbolistas registrados en la plantilla</p>' : ''}
+            ${players.map(p => {
+              const posBadge = {
+                'Delantero': '<span class="pos-badge pos-del">⚡ DEL</span>',
+                'Medio': '<span class="pos-badge pos-med">⚙️ MED</span>',
+                'Defensa': '<span class="pos-badge pos-def">🛡️ DEF</span>',
+                'Portero': '<span class="pos-badge pos-por">🧤 POR</span>'
+              }[p.posicion] || `<span class="pos-badge">${p.posicion}</span>`;
+
+              return `
+                <div class="player-item-row">
+                  <div class="player-name-col">
+                    <span class="player-dorsal">#${p.numero}</span>
+                    <strong class="player-name-text">${p.nombre}</strong>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:0.5rem;">
+                    ${posBadge}
+                    <button class="btn-remove-row btn-delete-player" data-player-id="${p.id}" title="Baja de jugador">&times;</button>
+                  </div>
                 </div>
-                <div style="display:flex; align-items:center; gap:0.5rem;">
-                  <span style="font-size:0.75rem; color:var(--text-muted);">${p.posicion}</span>
-                  <button class="btn-remove-row btn-delete-player" data-player-id="${p.id}">&times;</button>
-                </div>
-              </div>
-            `).join('')}
+              `;
+            }).join('')}
           </div>
 
           <div class="team-card-footer">
-            <button class="btn btn-sm btn-outline-emerald btn-add-player" data-team-id="${eq.id}" data-team-name="${eq.nombre}">
-              ➕ Agregar Jugador
+            <button class="btn btn-sm btn-outline-emerald btn-sporty btn-add-player w-full" data-team-id="${eq.id}" data-team-name="${eq.nombre}">
+              ➕ Inscribir Futbolista
             </button>
           </div>
         </div>
